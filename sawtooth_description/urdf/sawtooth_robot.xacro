@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<robot name="Sawtooth" 
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- include depending xacros -->
+    <xacro:include filename="$(find sawtooth_description)/urdf/constants.xacro" />
+    <xacro:include filename="$(find sawtooth_description)/urdf/materials.xacro" />
+
+    <!-- links -->
+
+
+
+
+
+    <!-- joints -->
+
+
+
+
+
+
+</robot>
