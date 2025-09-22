@@ -2,9 +2,83 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-   
+    <xacro:macro name="leg" params="prefix">
+
+        <!-- hip link -->
+        <link name="${prefix}_hip">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi/2.0} 0 0" />
+                <geometry>
+                    <cylinder radius="${hip_radius}" length="${hip_length}" /> 
+                </geometry>
+                <material name="grey"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <cylinder radius="${hip_radius}" length="${hip_length}" />
+                </geometry>
+            </collision>
+            <!-- <inertial>
+                <mass value="${hip_mass}" />
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                inertia of cylinder
+                <interia ixx="${(hip_mass/12) * (3*hip_radius*hip_radius + hip_length*hip_length)}"    ixy="0.0"   ixz="0.0"
+                                    iyy="${(hip_mass/12) * (3*hip_radius*hip_radius + hip_length*hip_length)}"     iyz="0.0"
+                                                izz="${(hip_mass*hip_radius*hip_radius)/2}" />
+                
+            </inertial> -->
+        </link>
+
+        <!-- femur link -->
+        <link name="${prefix}_femur">
+            <visual>
+                <origin xyz="-0.010 -0.010 -0.050" rpy="0 0 0"/>
+                <material name="black"/>            
+                <geometry> 
+                    <mesh filename="package://sawtooth_description/meshes/urdf_femur.stl" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://sawtooth_description/meshes/urdf_femur.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertal>
+                <mass value="${femur_mass}"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <!-- inertia of box -->
+                <inertia 
+                    ixx="${(femur_mass/12) * (femur_width * femur_width + femur_height * femur_height)}"  ixy="0.0"  ixz="0.0"
+                            iyy="${(femur_mass/12) * (femur_height * femur_height + femur_length * femur_length)}"   iyz="0.0"
+                                    izz="${(femur_mass/12) * (femur_width * femur_width + femur_length * femur_length)}"/>
+            </inertal>
+        </link>
+
+        <!-- Joints -->
+
+        <joint name="body_${prefix}_hip_joint" type="revolute">
+            <parent link="body" />
+            <child link="${prefix}_hip" />
+            <origin xyz="${body_length/3} ${body_width/3} ${body_height/2}" rpy="0 0 0" />
+            <axis xyz="0 1 0" />
+            <limit lower="-1.0" upper="1.0" effort="100" velocity="100" />
+        </joint>
+
+        <joint name="hip_femur_joint" type="revolute">
+            <parent link="${prefix}_hip" />
+            <child link="${prefix}_femur" />
+            <origin xyz="${hip_radius} 0 0" rpy="0 0 0" />
+            <axis xyz="1 0 0" />
+            <limit lower="-1.0" upper="1.0" effort="100" velocity="100" />
+        </joint>
+
+
+<!-- ${body_width/6} -->
 
 
 
+    </xacro:macro>
 
 </robot>

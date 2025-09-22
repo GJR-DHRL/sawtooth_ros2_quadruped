@@ -6,18 +6,63 @@
     <!-- include depending xacros -->
     <xacro:include filename="$(find sawtooth_description)/urdf/constants.xacro" />
     <xacro:include filename="$(find sawtooth_description)/urdf/materials.xacro" />
+    <xacro:include filename="$(find sawtooth_description)/urdf/leg.xacro" />
+
+    <!-- Location of leg(motor) joints are for simulation only-->
 
     <!-- links -->
 
+    <!-- base_link = dummy (mandetory) link. It acts as the root reference for other links. -->
+    <link name="base_link"/>
+        
+    <link name="body">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://sawtooth_description/meshes/urdf_base.stl" scale="1 1 1"/>
+            </geometry>
+            <material name="orange"/>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <mesh filename="package://sawtooth_description/meshes/urdf_base.stl" scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="${body_mass}"/>
+            <origin xyz="0 0 0.025" rpy="0 0 0"/>
+            <!-- inertia of box -->
+            <inertia 
+                ixx="${(body_mass/12) * (body_width * body_width + body_height * body_height)}"  ixy="0.0"  ixz="0.0"
+                        iyy="${(body_mass/12) * (body_height * body_height + body_length * body_length)}"   iyz="0.0"
+                                izz="${(body_mass/12) * (body_width * body_width + body_length * body_length)}"/> 
+        </inertial>
+        <!-- you cannot nest ${...} inside another ${...}, no need to wrap each variable with ${} again — just use them like normal variables inside the arithmetic. -->
+    </link>
 
+   
 
+    <xacro:leg prefix="front_left"/>
+    
 
 
     <!-- joints -->
+    <joint name="baselink_body_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="body" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
 
-
+    
+    
 
 
 
 
 </robot>
+
+<!-- for this project:
+    length = x
+    width = y
+    height = z -->

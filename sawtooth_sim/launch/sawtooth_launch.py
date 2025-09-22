@@ -2,12 +2,14 @@
 
 import os   # for modularity and to perform file/path operations
 import launch_ros   # mandetory to connect with ros/ to get excess of ros
+from launch_ros.actions import Node # to make nodes 
 
 from launch.actions import (
     DeclareLaunchArgument   # to declare launch-time variables so user can change them through CLI
     
 )
 
+from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution     # To get excess of substitutions module
 
 """
 -> Outside = fixed at parse-time (no substitution, no CLI override, just a python string).
@@ -70,6 +72,8 @@ def generate_launch_description():
         default_value="true", # why value is passed as string instead of bool ? bcz launch arguments are processed in strings only for flexibility.
         description="Use simulation (Gazebo) clock if true" )
     
+    use_sim_time = LaunchConfiguration("use_sim_time")
+    
     # simulator world file-path 
     declare_gazebo_world_path = DeclareLaunchArgument(
         "gazebo_world_path",
@@ -98,11 +102,16 @@ def generate_launch_description():
         default_value="0.375",
         description="z coordinate to spawn robot in world" )
     
-
-
+    # Description of parameters  
+    robot_description_path = {"robot_description": Command(["xacro ", LaunchConfiguration("sawtooth_description_path")])}
      
-
-
-
-
-
+    # Description of nodes
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        output="screen",
+        parameters=[
+            robot_description_path,
+            {"use_sim_time": use_sim_time}
+        ]
+    )

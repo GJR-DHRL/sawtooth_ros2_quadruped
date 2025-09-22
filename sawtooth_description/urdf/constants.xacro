@@ -2,8 +2,30 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+    <!-- collision values -->
+    <!-- body -->
+    <xacro:property name="body_mass" value="0.700" />
+    <!-- body_mass is approx, change accordingly -->
+    <xacro:property name="body_length" value="0.160" />
+    <xacro:property name="body_width" value="0.253" />
+    <xacro:property name="body_height" value="0.050" />
 
+    <!-- hip -->
+    <xacro:property name="hip_mass" value="0.020" />
+    <xacro:property name="hip_radius" value="0.025" />
+    <xacro:property name="hip_length" value="0.050" />
 
+    <!-- femur -->
+    <xacro:property name="femur_mass" value="0.030" />
+    <xacro:property name="femur_length" value="0.015"/>
+    <xacro:property name="femur_width" value="0.100"/>
+    <xacro:property name="femur_height" value="0.100"/>
 
+    
+
+ 
 
 </robot>
+
+
+
