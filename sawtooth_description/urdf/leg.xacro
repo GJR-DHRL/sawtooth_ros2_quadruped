@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:macro name="leg" params="prefix">
+    <xacro:macro name="leg" params="prefix front_rear side">
 
         <!-- hip link -->
         <link name="${prefix}_hip">
@@ -14,38 +14,44 @@
                 <material name="grey"/>
             </visual>
             <collision>
-                <origin xyz="0 0 0" rpy="0 0 0" />
+                <origin xyz="0 0 0" rpy="${pi/2.0} 0 0" />
                 <geometry>
                     <cylinder radius="${hip_radius}" length="${hip_length}" />
                 </geometry>
             </collision>
-            <!-- <inertial>
+            <inertial>
                 <mass value="${hip_mass}" />
                 <origin xyz="0 0 0" rpy="0 0 0"/>
-                inertia of cylinder
-                <interia ixx="${(hip_mass/12) * (3*hip_radius*hip_radius + hip_length*hip_length)}"    ixy="0.0"   ixz="0.0"
-                                    iyy="${(hip_mass/12) * (3*hip_radius*hip_radius + hip_length*hip_length)}"     iyz="0.0"
-                                                izz="${(hip_mass*hip_radius*hip_radius)/2}" />
-                
-            </inertial> -->
+                <!-- inertia of cylinder -->
+                <inertia ixx="${(hip_mass/12) * (3 * hip_radius * hip_radius + hip_length * hip_length)}"    ixy="0.0"   ixz="0.0"
+                                    iyy="${(hip_mass/12) * (3 * hip_radius * hip_radius + hip_length * hip_length)}"     iyz="0.0"
+                                                izz="${(hip_mass * hip_radius * hip_radius)/2}" />
+            </inertial> 
         </link>
 
         <!-- femur link -->
         <link name="${prefix}_femur">
             <visual>
-                <origin xyz="-0.010 -0.010 -0.050" rpy="0 0 0"/>
-                <material name="black"/>            
+                <!-- if left -->
+                <xacro:if value="${(side == 1)}">   
+                    <origin xyz="${-femur_visual_offset_x} ${-femur_visual_offset_y} ${-femur_visual_offset_z}" rpy="0 0 0"/>
+                </xacro:if>
+                <!-- if right -->
+                <xacro:if value="${side == -1}">
+                    <origin xyz="${-Rfemur_visual_offset_x} ${-femur_visual_offset_y} ${-femur_visual_offset_z}" rpy="0 0 0"/>
+                </xacro:if>
+                <material name="white"/>            
                 <geometry> 
                     <mesh filename="package://sawtooth_description/meshes/urdf_femur.stl" scale="1 1 1"/>
                 </geometry>
             </visual>
             <collision>
-                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <origin xyz="-0.010 -0.010 -0.050" rpy="0 0 0"/>
                 <geometry>
                     <mesh filename="package://sawtooth_description/meshes/urdf_femur.stl" scale="1 1 1"/>
                 </geometry>
             </collision>
-            <inertal>
+            <inertial>
                 <mass value="${femur_mass}"/>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <!-- inertia of box -->
@@ -53,7 +59,34 @@
                     ixx="${(femur_mass/12) * (femur_width * femur_width + femur_height * femur_height)}"  ixy="0.0"  ixz="0.0"
                             iyy="${(femur_mass/12) * (femur_height * femur_height + femur_length * femur_length)}"   iyz="0.0"
                                     izz="${(femur_mass/12) * (femur_width * femur_width + femur_length * femur_length)}"/>
-            </inertal>
+            </inertial>
+        </link>
+
+        <link name="${prefix}_tibia">
+            <visual>
+                <origin xyz="-0.02 -0.088 0.025" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://sawtooth_description/meshes/urdf_tibia.stl" scale="1 1 1" />
+                </geometry>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <origin xyz="-0.02 -0.088 0.025" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://sawtooth_description/meshes/urdf_tibia.stl" scale="1 1 1" />
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="${tibia_mass}" />
+                <origin xyz="0 0 0" />
+                <!-- inertia of box -->
+                <inertia ixx="${(tibia_mass/12) * (tibia_width * tibia_width + tibia_height * tibia_height)}" 
+                         ixy="0.0" 
+                         ixz="0.0" 
+                         iyy="${(tibia_mass/12) * (tibia_height * tibia_height + tibia_length * tibia_length)}" 
+                         iyz="0.0" 
+                         izz="${(tibia_mass/12) * (tibia_width * tibia_width + tibia_length * tibia_length)}" />
+            </inertial>
         </link>
 
         <!-- Joints -->
@@ -61,23 +94,26 @@
         <joint name="body_${prefix}_hip_joint" type="revolute">
             <parent link="body" />
             <child link="${prefix}_hip" />
-            <origin xyz="${body_length/3} ${body_width/3} ${body_height/2}" rpy="0 0 0" />
+            <origin xyz="${side*body_length/3} ${front_rear*body_width/3} ${body_height/2}" rpy="0 0 0" />
             <axis xyz="0 1 0" />
             <limit lower="-1.0" upper="1.0" effort="100" velocity="100" />
         </joint>
 
-        <joint name="hip_femur_joint" type="revolute">
+        <joint name="${prefix}_hip_femur_joint" type="revolute">
             <parent link="${prefix}_hip" />
             <child link="${prefix}_femur" />
-            <origin xyz="${hip_radius} 0 0" rpy="0 0 0" />
+            <origin xyz="${side*hip_radius} 0 0" rpy="0 0 0" />
             <axis xyz="1 0 0" />
             <limit lower="-1.0" upper="1.0" effort="100" velocity="100" />
         </joint>
 
-
-<!-- ${body_width/6} -->
-
-
+        <joint name="${prefix}_femur_tibia_joint" type="revolute">
+            <parent link="${prefix}_femur" />
+            <child link="${prefix}_tibia" />
+            <origin xyz="${side*femur_joint_offset_x} ${femur_width-0.022} ${-femur_height+0.025}" rpy="0 0 0" />
+            <axis xyz="1 0 0" />
+            <limit lower="-1.0" upper="1.0" effort="100" velocity="100" />
+        </joint>
 
     </xacro:macro>
 

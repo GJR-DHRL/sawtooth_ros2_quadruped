@@ -40,12 +40,14 @@
         </inertial>
         <!-- you cannot nest ${...} inside another ${...}, no need to wrap each variable with ${} again — just use them like normal variables inside the arithmetic. -->
     </link>
-
    
-
-    <xacro:leg prefix="front_left"/>
-    
-
+    <!--prefix → leg name (e.g., FL, FR, HL, HR).
+        side → 1 (left) or -1 (right).
+        front_rear → 1 (rear) or -1 (front). -->
+    <xacro:leg prefix="FL" front_rear="-1" side="1"/>
+    <xacro:leg prefix="FR" front_rear="-1" side="-1"/>
+    <xacro:leg prefix="RL" front_rear="1" side="1"/>
+    <xacro:leg prefix="RR" front_rear="1" side="-1"/>
 
     <!-- joints -->
     <joint name="baselink_body_joint" type="fixed">
@@ -54,15 +56,6 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
     </joint>
 
-    
-    
-
-
-
-
 </robot>
 
-<!-- for this project:
-    length = x
-    width = y
-    height = z -->
+<!-- for this project: x = length | y = width | z = height -->
