@@ -23,9 +23,12 @@
                 <mass value="${hip_mass}" />
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <!-- inertia of cylinder -->
-                <inertia ixx="${(hip_mass/12) * (3 * hip_radius * hip_radius + hip_length * hip_length)}"    ixy="0.0"   ixz="0.0"
-                                    iyy="${(hip_mass/12) * (3 * hip_radius * hip_radius + hip_length * hip_length)}"     iyz="0.0"
-                                                izz="${(hip_mass * hip_radius * hip_radius)/2}" />
+                <inertia ixx="${(hip_mass/12) * (3 * hip_radius * hip_radius + hip_length * hip_length)}"        
+                         ixy="0.0"   
+                         ixz="0.0"
+                         iyy="${(hip_mass/12) * (3 * hip_radius * hip_radius + hip_length * hip_length)}"
+                         iyz="0.0"
+                         izz="${(hip_mass * hip_radius * hip_radius)/2}" />
             </inertial> 
         </link>
 
@@ -34,11 +37,15 @@
             <visual>
                 <!-- if left -->
                 <xacro:if value="${(side == 1)}">   
-                    <origin xyz="${-femur_visual_offset_x} ${-femur_visual_offset_y} ${-femur_visual_offset_z}" rpy="0 0 0"/>
+                    <origin xyz="${-femur_visual_offset_x} 
+                                 ${-femur_visual_offset_y} 
+                                 ${-femur_visual_offset_z}" rpy="0 0 0"/>
                 </xacro:if>
                 <!-- if right -->
                 <xacro:if value="${side == -1}">
-                    <origin xyz="${-Rfemur_visual_offset_x} ${-femur_visual_offset_y} ${-femur_visual_offset_z}" rpy="0 0 0"/>
+                    <origin xyz="${-Rfemur_visual_offset_x} 
+                                 ${-femur_visual_offset_y} 
+                                 ${-femur_visual_offset_z}" rpy="0 0 0"/>
                 </xacro:if>
                 <material name="white"/>            
                 <geometry> 
@@ -46,7 +53,18 @@
                 </geometry>
             </visual>
             <collision>
-                <origin xyz="-0.010 -0.010 -0.050" rpy="0 0 0"/>
+                <!-- if left -->
+                <xacro:if value="${(side == 1)}">   
+                    <origin xyz="${-femur_visual_offset_x} 
+                                 ${-femur_visual_offset_y} 
+                                 ${-femur_visual_offset_z}" rpy="0 0 0"/>
+                </xacro:if>
+                <!-- if right -->
+                <xacro:if value="${side == -1}">
+                    <origin xyz="${-Rfemur_visual_offset_x} 
+                                 ${-femur_visual_offset_y} 
+                                 ${-femur_visual_offset_z}" rpy="0 0 0"/>
+                </xacro:if>
                 <geometry>
                     <mesh filename="package://sawtooth_description/meshes/urdf_femur.stl" scale="1 1 1"/>
                 </geometry>
@@ -56,22 +74,29 @@
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <!-- inertia of box -->
                 <inertia 
-                    ixx="${(femur_mass/12) * (femur_width * femur_width + femur_height * femur_height)}"  ixy="0.0"  ixz="0.0"
-                            iyy="${(femur_mass/12) * (femur_height * femur_height + femur_length * femur_length)}"   iyz="0.0"
-                                    izz="${(femur_mass/12) * (femur_width * femur_width + femur_length * femur_length)}"/>
+                    ixx="${(femur_mass/12) * (femur_width * femur_width + femur_height * femur_height)}"  
+                    ixy="0.0"  
+                    ixz="0.0"
+                    iyy="${(femur_mass/12) * (femur_height * femur_height + femur_length * femur_length)}"
+                    iyz="0.0"
+                    izz="${(femur_mass/12) * (femur_width * femur_width + femur_length * femur_length)}"/>
             </inertial>
         </link>
 
         <link name="${prefix}_tibia">
             <visual>
-                <origin xyz="-0.02 -0.088 0.025" rpy="0 0 0" />
+                <origin xyz="${-tibia_visual_offset_x}
+                             ${-tibia_visual_offset_y}
+                             ${tibia_visual_offset_z}" rpy="0 0 0" />
                 <geometry>
                     <mesh filename="package://sawtooth_description/meshes/urdf_tibia.stl" scale="1 1 1" />
                 </geometry>
                 <material name="black"/>
             </visual>
             <collision>
-                <origin xyz="-0.02 -0.088 0.025" rpy="0 0 0" />
+                <origin xyz="${-tibia_visual_offset_x}
+                             ${-tibia_visual_offset_y}
+                             ${tibia_visual_offset_z}" rpy="0 0 0" />                
                 <geometry>
                     <mesh filename="package://sawtooth_description/meshes/urdf_tibia.stl" scale="1 1 1" />
                 </geometry>
@@ -94,7 +119,9 @@
         <joint name="body_${prefix}_hip_joint" type="revolute">
             <parent link="body" />
             <child link="${prefix}_hip" />
-            <origin xyz="${side*body_length/3} ${front_rear*body_width/3} ${body_height/2}" rpy="0 0 0" />
+            <origin xyz="${side*body_length/3} 
+                         ${front_rear*body_width/3} 
+                         ${body_height/2}" rpy="0 0 0" />
             <axis xyz="0 1 0" />
             <limit lower="-1.0" upper="1.0" effort="100" velocity="100" />
         </joint>

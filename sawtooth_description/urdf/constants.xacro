@@ -33,11 +33,11 @@
     <xacro:property name="Rfemur_visual_offset_x" value="0.030"/>
     <xacro:property name="femur_visual_offset_y" value="0.010"/>
     <xacro:property name="femur_visual_offset_z" value="0.050"/>
-    
 
-    
+    <xacro:property name="tibia_visual_offset_x" value="0.02"/>
+    <xacro:property name="tibia_visual_offset_y" value="0.088"/>
+    <xacro:property name="tibia_visual_offset_z" value="0.025"/>
 
- 
 
 </robot>
 

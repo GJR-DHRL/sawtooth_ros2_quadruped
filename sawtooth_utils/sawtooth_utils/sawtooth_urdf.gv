@@ -1,0 +1,19 @@
+digraph G {
+"base_link" -> "body"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"FL_femur" -> "FL_tibia"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"FL_hip" -> "FL_femur"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"body" -> "FL_hip"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"FR_femur" -> "FR_tibia"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"FR_hip" -> "FR_femur"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"body" -> "FR_hip"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"RL_femur" -> "RL_tibia"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"RL_hip" -> "RL_femur"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"body" -> "RL_hip"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"RR_femur" -> "RR_tibia"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"RR_hip" -> "RR_femur"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+"body" -> "RR_hip"[label=" Broadcaster: default_authority\nAverage rate: 10.199\nBuffer length: 5.0\nMost recent transform: 1758621044.478873\nOldest transform: 1758621039.478507\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1758621044.4964852"[ shape=plaintext ] ;
+}->"base_link";
+}

@@ -3,7 +3,12 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <!-- Gazebo Sim Plug-ins -->
+    <!-- https://github.com/gazebosim/gz-sim/tree/gz-sim9/src/systems -->
 
-
+    <!-- to simulate (fake) motor encoders -->
+    <gazebo>
+        <plugin 
+            filename="gz-sim-joint-state-publisher-system" 
+            name="gz::sim::systems::JointStatePublisher">
 
 </robot>

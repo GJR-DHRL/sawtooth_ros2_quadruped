@@ -7,3 +7,22 @@
 ---
 
 Work-In progress
+
+Work Completed till now :
+* CAD design
+* structured repo
+* URDF description
+* Visualized in Rviz through -
+    ```
+    ros2 launch urdf_tutorial display.launch.py model:=path/to/your/file
+    ```
+
+Future Tasks :
+* make launch file for rivz
+* drop robot in gazebo
+* make launch file for robot only in gazebo
+* sensor integration - 
+    - imu
+    - camera
+    - lidar
+    

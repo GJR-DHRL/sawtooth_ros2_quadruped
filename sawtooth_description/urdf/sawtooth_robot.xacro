@@ -58,4 +58,5 @@
 
 </robot>
 
-<!-- for this project: x = length | y = width | z = height -->
+<!-- for this project -> x => length | y => width | z => height -->
+<!-- don't use colcons anywhere in urdf/xacro file in comments, bcz xml parser don't allow -->
